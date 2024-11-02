@@ -28,4 +28,5 @@ chown "$USERNAME:$USERNAME" "$AUTH_KEYS"
 
 
 printf "\nSSH key generated and configured for $USERNAME.\n"
+./audit_log.sh "$USERNAME" "SSH Setup"
 

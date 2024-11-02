@@ -21,6 +21,7 @@ LIST_OF_USER_PERMISSIONS=("$DEFAULT_PERMISSIONS" "$PRIVATE_ACCESS" "$GROUP_COLLA
 if [[ $EUID -ne 0 ]]; then
 	printf "\nThis script requires root access\n"
 	echo "Try running: sudo $0"
+	./audit_log.sh "Access Denied"
 	exit 1
 fi
 
@@ -28,6 +29,7 @@ fi
 # Check if username is provided as command line arguement
 if [ -z "$1" ]; then
 	printf "\nUsage: $0 <username>\n"
+	./audit_log.sh "No username provided"
 	exit 1
 fi
 
@@ -51,6 +53,7 @@ read -p "choice: " choice
 # check if choice is valid
 if [[ "$choice" -gt 6 || "$choice" -lt 0 ]]; then
 	printf "\nInvalid entry. Your choce should be between 0 - 6\n"
+	./audit_log.sh "Invalid Permmission selected"
 	exit 1
 fi
 
@@ -66,3 +69,8 @@ printf "\n$USERNAME added to default groups.\n"
 
 # Run ssh setup script
 ./setup_ssh.sh "$USERNAME"
+
+./audit_log.sh "$USERNAME" "Created"
+
+
+echo "User Onboarding for $USERNAME completed"
