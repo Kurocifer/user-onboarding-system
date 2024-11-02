@@ -35,6 +35,8 @@ USERNAME=$1
 USER_HOME="/home/$USERNAME"
 
 
+printf "\n\n----- Setting up New User Onboarding -----\n\n"
+
 # Crete user and set their default shell to bash
 useradd -m -d "$USER_HOME" -s /bin/bash "$USERNAME"
 printf "\nUser $USERNAME created successfully.\n"
@@ -42,13 +44,13 @@ printf "\nUser $USERNAME created successfully.\n"
 
 
 # Set user permissions
-printf "\nSelect from the list below the permissions to assigned to the user (0 - 6)\n\n"
+printf "\nSelect from the list below the permissions to be assigned to the user (0 - 6)\n\n"
 print_permissions
 read -p "choice: " choice
 
 # check if choice is valid
 if [[ "$choice" -gt 6 || "$choice" -lt 0 ]]; then
-	printf "\nInvalid entry. Make your choce between 0 - 6\n"
+	printf "\nInvalid entry. Your choce should be between 0 - 6\n"
 	exit 1
 fi
 
@@ -60,3 +62,7 @@ printf "\nPermissions "$USER_PERMISSIONS" have been set for $USER_HOME.\n"
 # Add user to groups
 usermod -aG sudo "$USERNAME" # Add to sudo group
 printf "\n$USERNAME added to default groups.\n"
+
+
+# Run ssh setup script
+./setup_ssh.sh "$USERNAME"
