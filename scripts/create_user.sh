@@ -61,6 +61,11 @@ USER_PERMISSIONS=${LIST_OF_USER_PERMISSIONS[choice]}
 chmod "$USER_PERMISSIONS" "$USER_HOME"
 printf "\nPermissions "$USER_PERMISSIONS" have been set for $USER_HOME.\n"
 
+read -p "Do you want to set a password for this user ? (Y/N): " choice
+
+if [[ "$choice" -eq "Y" || "$choice" -eq "y" ]]; then
+	passwd $USERNAME
+
 
 # Add user to groups
 usermod -aG sudo "$USERNAME" # Add to sudo group
